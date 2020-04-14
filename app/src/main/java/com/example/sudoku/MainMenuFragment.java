@@ -17,17 +17,34 @@ public class MainMenuFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mainmenu, container, false);
+        return inflater.inflate(R.layout.fragment_main_menu, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_return_to_title).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.button_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(MainMenuFragment.this)
-                        .navigate(R.id.action_MainMenuFragment_to_TitleFragment);
+                        .navigate(R.id.action_MainMenuFragment_to_SettingsFragment);
+            }
+        });
+
+        view.findViewById(R.id.button_load_game).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(MainMenuFragment.this)
+                        .navigate(R.id.action_MainMenuFragment_to_LoadGameFragment);
+            }
+        });
+
+
+        view.findViewById(R.id.button_start_new_game).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(MainMenuFragment.this)
+                        .navigate(R.id.action_MainMenuFragment_to_GameFragment);
             }
         });
     }

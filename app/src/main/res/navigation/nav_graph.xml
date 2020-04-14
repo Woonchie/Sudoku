@@ -3,26 +3,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/TitleFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/TitleFragment"
         android:name="com.example.sudoku.TitleFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_title">
 
         <action
             android:id="@+id/action_TitleFragment_to_MainMenuFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/MainMenuFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/MainMenuFragment"
         android:name="com.example.sudoku.MainMenuFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_mainmenu">
+        tools:layout="@layout/fragment_main_menu">
 
         <action
-            android:id="@+id/action_MainMenuFragment_to_TitleFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_MainMenuFragment_to_SettingsFragment"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_MainMenuFragment_to_LoadGameFragment"
+            app:destination="@id/LoadGameFragment" />
+        <action
+            android:id="@+id/action_MainMenuFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.example.sudoku.SettingsFragment"
+        android:label="@string/settings_fragment_label"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_SettingsFragment_to_MainMenuFragment"
+            app:destination="@id/MainMenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LoadGameFragment"
+        android:name="com.example.sudoku.LoadGameFragment"
+        android:label="LoadGameFragment"
+        tools:layout="@layout/fragment_load_game">
+
+        <action
+            android:id="@+id/action_LoadGameFragment_to_MainMenuFragment"
+            app:destination="@id/MainMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.example.sudoku.GameFragment"
+        android:label="GameFragment"
+        tools:layout="@layout/fragment_game">
+
+        <action
+            android:id="@+id/action_GameFragment_to_MainMenuFragment"
+            app:destination="@id/MainMenuFragment" />
+    </fragment>
+
 </navigation>
