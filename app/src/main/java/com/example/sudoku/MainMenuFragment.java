@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 public class MainMenuFragment extends Fragment {
 
+    private Globals g = Globals.getInstance();
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,

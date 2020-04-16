@@ -1,5 +1,6 @@
 package com.example.sudoku;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,6 +17,10 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Globals g = Globals.getInstance();
+    private SharedPreferences mPreferences;
+    private boolean sound_on_setting;
+    private boolean autosave_on_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mPreferences = getSharedPreferences(g.getPrefs(), MODE_PRIVATE);
+        //sound_on_setting = mPreferences.getBoolean("sound_on", false);
+        //autosave_on_setting = mPreferences.getBoolean("autosave_on", false);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.apply();
     }
 
     @Override
@@ -32,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
