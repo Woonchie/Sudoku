@@ -7,6 +7,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -18,28 +19,29 @@ import android.widget.RelativeLayout;
 public class MainActivity extends AppCompatActivity {
 
     private Globals g = Globals.getInstance();
-    private SharedPreferences mPreferences;
-    private boolean sound_on_setting;
-    private boolean autosave_on_setting;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPreferences = getSharedPreferences(g.getPrefs(), MODE_PRIVATE);
-        //sound_on_setting = mPreferences.getBoolean("sound_on", false);
-        //autosave_on_setting = mPreferences.getBoolean("autosave_on", false);
+        prefs = getSharedPreferences(g.getPrefs(), MODE_PRIVATE);
+
+        //set theme
+        if (prefs.getInt("color_theme", 0) == 0)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        SharedPreferences.Editor preferencesEditor = prefs.edit();
         preferencesEditor.apply();
     }
 

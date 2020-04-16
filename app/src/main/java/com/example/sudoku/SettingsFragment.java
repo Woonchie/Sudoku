@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -76,9 +77,12 @@ public class SettingsFragment extends Fragment {
                         if (checkedId == R.id.radio_light_theme)
                         {
                             editor.putInt("color_theme", 0);
-                        } else if (checkedId == R.id.radio_dark_theme)
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        else if (checkedId == R.id.radio_dark_theme)
                         {
                             editor.putInt("color_theme", 1);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         }
 
                         editor.apply();
