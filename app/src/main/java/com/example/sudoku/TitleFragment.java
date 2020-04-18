@@ -25,7 +25,7 @@ public class TitleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Make the whole screen clickable
+        //Make the whole screen clickable, set navigation to main menu
         view.findViewById(R.id.tap_anywhere_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

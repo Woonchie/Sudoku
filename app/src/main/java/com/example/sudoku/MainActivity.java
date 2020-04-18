@@ -21,23 +21,43 @@ public class MainActivity extends AppCompatActivity {
     private Globals g = Globals.getInstance();
     private SharedPreferences prefs;
 
+    /**
+     *  Initializes our application
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Creates the toolbar, but it is not needed. so we hide it.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().hide();
 
+        //Preferences is where the saved settings and saved games are.
         prefs = getSharedPreferences(g.getPrefs(), MODE_PRIVATE);
 
-        //set theme
-        if (prefs.getInt("color_theme", 0) == 0)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        //Set the app color theme
+        //0 value is Light Theme
+        //1 value is Dark Theme
+        switch (prefs.getInt("color_theme", 0))
+        {
+            case(0):
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case(1):
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+        }
     }
 
+    /**
+     * Applies any Preferences updates still needing to be committed.
+     */
     @Override
     protected void onPause()
     {
@@ -46,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         preferencesEditor.apply();
     }
 
+    /**
+     * Creates the tool bar and adds items
+     * @param menu the menu calling the toolbar
+     * @return true to signify menu has been created.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -54,7 +79,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Method to handle click events on the options in the menu drop down from the tool bar, it is
+     * not implemented by our app.
+     * @param item the option that is clicked
+     * @return true signifying that and item was selected.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

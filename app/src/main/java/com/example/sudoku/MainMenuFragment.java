@@ -25,14 +25,18 @@ public class MainMenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_settings).setOnClickListener(new View.OnClickListener() {
+        //Enable listener for the New Game Button
+        //Navigates to the Fragment where the Sudoku game is actually played
+        view.findViewById(R.id.button_start_new_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(MainMenuFragment.this)
-                        .navigate(R.id.action_MainMenuFragment_to_SettingsFragment);
+                        .navigate(R.id.action_MainMenuFragment_to_GameFragment);
             }
         });
 
+        //Enable listener for the Load Game Button
+        //Navigates to the Load Game menu
         view.findViewById(R.id.button_load_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,12 +45,13 @@ public class MainMenuFragment extends Fragment {
             }
         });
 
-
-        view.findViewById(R.id.button_start_new_game).setOnClickListener(new View.OnClickListener() {
+        //Enable listener for the Settings Button
+        //Navigates to the Settings menu
+        view.findViewById(R.id.button_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(MainMenuFragment.this)
-                        .navigate(R.id.action_MainMenuFragment_to_GameFragment);
+                        .navigate(R.id.action_MainMenuFragment_to_SettingsFragment);
             }
         });
     }

@@ -4,7 +4,9 @@ public class Globals
 {
     private static Globals instance;
 
-    // Global variable
+    // Global variables
+
+    //variable use to point to where the preferences are saved
     private String sharedPrefFile = "com.example.android.sudokusettingsprefs";
 
     // Restrict the constructor from being instantiated

@@ -34,12 +34,13 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //grab prefs first
+        //Grab the saved SharePreferences first
         final SharedPreferences prefs = this.getActivity().getSharedPreferences(g.getPrefs(),this.getActivity().MODE_PRIVATE);
+
         //Create prefs editor
         final SharedPreferences.Editor editor = prefs.edit();
 
-        //Set Sound_switch and add listener
+        //Set Sound_switch and add listener to save the value when clicked.
         Switch sound_switch = (Switch) view.findViewById(R.id.switch_sound);
         sound_switch.setChecked(prefs.getBoolean("sound_on", false));
         sound_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -50,7 +51,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        //Set Autosave Switch and add listener
+        //Set Autosave Switch and add listener to save value when clicked
         Switch autosave_switch = (Switch) view.findViewById(R.id.switch_autosave);
         autosave_switch.setChecked(prefs.getBoolean("autosave_on", false));
         autosave_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -61,14 +62,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        //Get Radio buttons for Theme
+        //Get Saved Radio Button selection
         int i = prefs.getInt("color_theme",0);
         if( i >= 0)
         {
             ((RadioButton) ((RadioGroup)view.findViewById(R.id.radio_group_theme)).getChildAt(i)).setChecked(true);
         }
 
-        //Create Event Listener for Radio buttons.
+        //Create Event Listener for Radio buttons  to save value when clicked and update app theme instantly.
         RadioGroup theme_radio_group = (RadioGroup) view.findViewById(R.id.radio_group_theme);
         theme_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
@@ -76,21 +77,25 @@ public class SettingsFragment extends Fragment {
                     {
                         if (checkedId == R.id.radio_light_theme)
                         {
+                            //Save Color theme as 0 (Light Theme).
                             editor.putInt("color_theme", 0);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         }
                         else if (checkedId == R.id.radio_dark_theme)
                         {
+                            //Save Color theme as 1 (Dark Theme).
                             editor.putInt("color_theme", 1);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         }
 
+                        //Commit Changes
                         editor.apply();
                     }
                 });
 
 
 
+        //Enable the "Go Back" button and add listener to navigate back to the main menu.
         view.findViewById(R.id.button_settings_return).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
