@@ -36,16 +36,6 @@ public class GameFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-/*
-        view.findViewById(R.id.button_game_return).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(GameFragment.this)
-                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
-            }
-        });
-
- */
 
         // Creates the Sudoku Grid
         final GridView gridview = (GridView) getView().findViewById(R.id.gridview);
