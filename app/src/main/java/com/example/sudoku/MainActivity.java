@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+        //Set the auto baes on saved preference.
         if (prefs.getBoolean("sound_on", true))
         {
             //unmute audio
