@@ -1,6 +1,8 @@
 package com.example.sudoku;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.FileUtils;
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ import java.io.IOException;
 
 public class GameFragment extends Fragment {
 
+    private Globals g = Globals.getInstance();
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -46,6 +50,10 @@ public class GameFragment extends Fragment {
         });
 
  */
+        //Grab the saved SharePreferences first
+        final SharedPreferences prefs = this.getActivity().getSharedPreferences(g.getPrefs(),this.getActivity().MODE_PRIVATE);
+        //Create prefs editor
+        final SharedPreferences.Editor editor = prefs.edit();
 
         // Creates the Sudoku Grid
         final GridView gridview = (GridView) getView().findViewById(R.id.gridview);
@@ -158,6 +166,10 @@ public class GameFragment extends Fragment {
                     ImageView curChosen = (ImageView) imageAdapter.getItem(imageAdapter.chosenPosition);
                     if (curChosen != null)
                     {
+                        //Sound when clicked, if setting is ON
+                        //if (prefs.getBoolean("sound_on", false))
+                        //    mp.start();
+
                         curChosen.setImageResource(numbers[ref]);
                         //TODO ADD FUNCTIONALITY WITH ACTUAL PUZZLE
                     }

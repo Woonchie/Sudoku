@@ -1,6 +1,8 @@
 package com.example.sudoku;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +14,10 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class SettingsFragment extends Fragment {
@@ -34,6 +38,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        final FragmentActivity activity = this.getActivity();
         //Grab the saved SharePreferences first
         final SharedPreferences prefs = this.getActivity().getSharedPreferences(g.getPrefs(),this.getActivity().MODE_PRIVATE);
 
@@ -45,6 +50,21 @@ public class SettingsFragment extends Fragment {
         sound_switch.setChecked(prefs.getBoolean("sound_on", false));
         sound_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                //If switched on, immmediately set audio to off.
+                if (isChecked)
+                {
+                    //unmute audio
+                    AudioManager amanager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+                    amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+                }
+                else
+                {
+                    //mute audio
+                    AudioManager amanager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+                    amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
+                }
+
                 //commit prefs on change
                 editor.putBoolean("sound_on", isChecked);
                 editor.commit();
