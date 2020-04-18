@@ -1,6 +1,8 @@
 package com.example.sudoku;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +54,20 @@ public class MainActivity extends AppCompatActivity {
             default:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
+        }
+
+        //Set the auto baes on saved preference.
+        if (prefs.getBoolean("sound_on", true))
+        {
+            //unmute audio
+            AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+        }
+        else
+        {
+            //mute audio
+            AudioManager amanager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, true);
         }
     }
 

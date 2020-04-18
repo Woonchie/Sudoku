@@ -1,6 +1,8 @@
 package com.example.sudoku;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.FileUtils;
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ import java.io.IOException;
 
 public class GameFragment extends Fragment {
 
+    private Globals g = Globals.getInstance();
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -36,6 +40,20 @@ public class GameFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+/*
+        view.findViewById(R.id.button_game_return).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(GameFragment.this)
+                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+            }
+        });
+
+ */
+        //Grab the saved SharePreferences first
+        final SharedPreferences prefs = this.getActivity().getSharedPreferences(g.getPrefs(),this.getActivity().MODE_PRIVATE);
+        //Create prefs editor
+        final SharedPreferences.Editor editor = prefs.edit();
 
         // Creates the Sudoku Grid
         final GridView gridview = (GridView) getView().findViewById(R.id.gridview);
@@ -91,9 +109,29 @@ public class GameFragment extends Fragment {
         exit_game.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                //Return to the Main Menu
-                NavHostFragment.findNavController(GameFragment.this)
-                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+                //Create Dialog Interface to prompt the user to make sure they actually want to
+                //exit game and delete non-saved progress
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int choice) {
+                        switch (choice) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Return to the Main Menu
+                                NavHostFragment.findNavController(GameFragment.this)
+                                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                            default:
+                                //Do Nothing
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Exit Game? Progress not saved will be deleted.")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
 
@@ -128,6 +166,10 @@ public class GameFragment extends Fragment {
                     ImageView curChosen = (ImageView) imageAdapter.getItem(imageAdapter.chosenPosition);
                     if (curChosen != null)
                     {
+                        //Sound when clicked, if setting is ON
+                        //if (prefs.getBoolean("sound_on", false))
+                        //    mp.start();
+
                         curChosen.setImageResource(numbers[ref]);
                         //TODO ADD FUNCTIONALITY WITH ACTUAL PUZZLE
                     }
