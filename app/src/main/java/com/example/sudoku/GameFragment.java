@@ -101,9 +101,29 @@ public class GameFragment extends Fragment {
         exit_game.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                //Return to the Main Menu
-                NavHostFragment.findNavController(GameFragment.this)
-                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+                //Create Dialog Interface to prompt the user to make sure they actually want to
+                //exit game and delete non-saved progress
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int choice) {
+                        switch (choice) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Return to the Main Menu
+                                NavHostFragment.findNavController(GameFragment.this)
+                                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                            default:
+                                //Do Nothing
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Exit Game? Progress not saved will be deleted.")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
 
