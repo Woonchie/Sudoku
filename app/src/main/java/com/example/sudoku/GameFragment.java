@@ -60,6 +60,37 @@ public class GameFragment extends Fragment {
             }
         });
 
+        // Enables functionality of rest grid button
+        Button reset_grid = getView().findViewById(R.id.button_reset_grid);
+        reset_grid.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                //Iterate through all positions possible and reset them. 9x9 = 81
+                for (int x = 0; x < 81; x++)
+                {
+                    //Get ImageView to reset to blank.
+                    ImageView curChosen = (ImageView) imageAdapter.getItem(x);
+                    if (curChosen != null)
+                    {
+                        //Reset to blank.
+                        curChosen.setImageResource(R.drawable.blank);
+                        //TODO ADD FUNCTIONALITY WITH ACTUAL PUZZLE
+                    }
+                }
+            }
+        });
+
+        // Enables functionality of exit game button
+        Button exit_game = getView().findViewById(R.id.button_exit_game);
+        exit_game.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                //Return to the Main Menu
+                NavHostFragment.findNavController(GameFragment.this)
+                        .navigate(R.id.action_GameFragment_to_MainMenuFragment);
+            }
+        });
+
         // Enables functionality of delete button
         Button delete = getView().findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
