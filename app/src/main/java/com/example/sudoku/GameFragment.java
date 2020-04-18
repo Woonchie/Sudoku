@@ -1,11 +1,14 @@
 package com.example.sudoku;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import androidx.navigation.fragment.NavHostFragment;
@@ -16,6 +19,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 public class GameFragment extends Fragment {
 
@@ -65,18 +71,28 @@ public class GameFragment extends Fragment {
         reset_grid.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                //Iterate through all positions possible and reset them. 9x9 = 81
-                for (int x = 0; x < 81; x++)
-                {
-                    //Get ImageView to reset to blank.
-                    ImageView curChosen = (ImageView) imageAdapter.getItem(x);
-                    if (curChosen != null)
-                    {
-                        //Reset to blank.
-                        curChosen.setImageResource(R.drawable.blank);
-                        //TODO ADD FUNCTIONALITY WITH ACTUAL PUZZLE
+                //Create Dialog Interface to prompt the user to make sure they actually want to
+                //reset the Grid
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int choice) {
+                        switch (choice) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Reset the Grid
+                                ResetGrid(imageAdapter);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                            default:
+                                //Do Nothing
+                                break;
+                        }
                     }
-                }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Reset Grid?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
 
@@ -127,6 +143,26 @@ public class GameFragment extends Fragment {
                     }
                 }
             });
+        }
+    }
+
+    /**
+     * Function to reset the puzzle Grid
+     * @param imageAdapter the adapter that is used to select each grid cell and delete the value.
+     */
+    public void ResetGrid(ImageAdapter imageAdapter)
+    {
+        //Iterate through all positions possible and reset them. 9x9 = 81
+        for (int x = 0; x < 81; x++)
+        {
+            //Get ImageView to reset to blank.
+            ImageView curChosen = (ImageView) imageAdapter.getItem(x);
+            if (curChosen != null)
+            {
+                //Reset to blank.
+                curChosen.setImageResource(R.drawable.blank);
+                //TODO ADD FUNCTIONALITY WITH ACTUAL PUZZLE
+            }
         }
     }
 
